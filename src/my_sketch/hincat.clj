@@ -1,8 +1,6 @@
 (ns my-sketch.hincat
   (:require [quil.core :as q]
-            [quil.middleware :as m]
-            [clojure.spec.alpha :as s]
-            [spec-dict :refer [dict dict*]]))
+            [quil.middleware :as m]))
 
 (defn- v2+
   "Vector add"
@@ -68,7 +66,7 @@
     (q/background 0)
     (q/with-rotation [angle]
       (doseq [r (:rects state)]
-       (render-rect r)))))
+        (render-rect r)))))
 
 ;;----------------
 (q/defsketch hincat
@@ -78,9 +76,6 @@
   :update update-state
   :draw render-state
   :features [:keep-on-top]
-  ;; This sketch uses functional-mode middleware.
-  ;; Check quil wiki for more info about middlewares and particularly
-  ;; fun-mode.
   :middleware [m/fun-mode])
 
 ;; The End
