@@ -2,7 +2,6 @@
   (:require [quil.core :as q]
             [quil.middleware :as m]
             [clojure.spec.alpha :as s]
-            [clojure.spec.gen.alpha :as gen]
             [spec-dict :refer [dict dict*]]))
 
 (defn- rand-int-range
@@ -64,22 +63,26 @@
       (update :angle #(+ % speed))
       (update :age #(- % rate))))
 
+(defn add-circle
+  [state _]
+  (update state :circles #(conj % (new-circle))))
+
+(defn add-random-circle
+  [circles]
+  (if (< (rand) 0.020)
+    (conj circles (new-circle))
+    circles))
+
 (defn dead?
   [c]
   (neg? (:age c)))
-
-(defn birth?
-  []
-  (< (rand) 0.02))
 
 (defn update-state
   [state]
   (-> state
       (update :circles #(map update-circle %))
       (update :circles #(remove dead? %))
-      ((fn [st] (if (birth?)
-                 (update st :circles #(conj % (new-circle)))
-                 st)))))
+      (update :circles #(add-random-circle %))))
 
 ;;----------------
 (defn render-circle
@@ -103,8 +106,6 @@
   :setup setup
   :update update-state
   :draw render-state
+  :mouse-clicked add-circle
   :features [:keep-on-top]
-  ;; This sketch uses functional-mode middleware.
-  ;; Check quil wiki for more info about middlewares and particularly
-  ;; fun-mode.
   :middleware [m/fun-mode])

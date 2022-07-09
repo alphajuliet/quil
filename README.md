@@ -1,18 +1,18 @@
 # my-sketch
 
-A Quil sketch designed to ... well, that part is up to you.
+Quil sketches.
+
+## core
+
+Circles with randomly-generated attributes moving in circular orbits around randomly-generated origins. Circles slowly change hue as time advances. Each circle has a lifetime and its brightness is directly proportional to the time it has left. New circles are created with a low probability or on a mouse click.
 
 ## Usage
 
-LightTable - open `core.clj` and press `Ctrl+Shift+Enter` to evaluate the file.
-
-Emacs - run cider, open `core.clj` and press `C-c C-k` to evaluate the file.
-
-REPL - run `(require 'my-sketch.core)`.
+REPL: e.g. run `(require 'my-sketch.core)`
 
 ## License
 
-Copyright © 2016 FIXME
+Copyright © 2022 Andrew Joyner
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
