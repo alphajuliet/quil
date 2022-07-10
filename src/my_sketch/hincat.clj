@@ -1,11 +1,7 @@
 (ns my-sketch.hincat
   (:require [quil.core :as q]
-            [quil.middleware :as m]))
-
-(defn- v2+
-  "Vector add"
-  [[x y] [u v]]
-  [(+ x u) (+ y v)])
+            [quil.middleware :as m]
+            [my-sketch.util :as util]))
 
 ;;----------------
 (defn new-rect
@@ -31,7 +27,7 @@
 (defn update-rect
   [rect]
   (-> rect
-      (update :centre #(v2+ % [0 1.2]))))
+      (update :centre #(util/v2+ % [0 1.2]))))
 
 (defn dead?
   [{:keys [centre]}]
