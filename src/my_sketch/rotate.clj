@@ -10,10 +10,11 @@
   (q/frame-rate 30) ;fps
   (q/color-mode :hsb)
   {:shapes (for [i (range 0 500 100)
-                  j (range 0 500 100)]
-              {:x i :y j
-               :hue (util/rand-int-range 0 255)
-               :theta (* (/ q/PI 8) (rand-int 8))})})
+                 j (range 0 500 100)]
+             {:x i :y j
+              :hue (+ 15 (* 85 (rand-int 3)))
+              :brightness 255
+              :theta (* (/ q/PI 8) (rand-int 8))})})
 
 ;;----------------
 (defn update-shape
@@ -46,8 +47,8 @@
     (q/background 30)
     (q/stroke-weight 16)
     (q/with-translation [50 50]
-      (doseq [{:keys [x y hue theta]} (:shapes state)]
-        (q/stroke hue 255 255)
+      (doseq [{:keys [x y hue brightness theta]} (:shapes state)]
+        (q/stroke hue 255 brightness)
         (q/with-translation [x y]
           (cross 0 0 92 theta))))))
 
