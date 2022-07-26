@@ -1,4 +1,5 @@
-(ns my-sketch.util)
+(ns my-sketch.util
+  (:require [quil.core :as q]))
 
 (defn rand-int-range
   "Integer range"
@@ -33,5 +34,13 @@
       (q/line x2 y1 x2 y2)
       (q/line x2 y2 x1 y2)
       (q/line x1 y2 x1 y1))))
+
+(defn d2r
+  [r]
+  (* r (/ q/PI 180.)))
+
+(defn r2d
+  [d]
+  (/ d (/ q/PI 180.)))
 
 ;; The End

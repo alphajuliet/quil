@@ -14,14 +14,14 @@
              {:x i :y j
               :hue (+ 15 (* 85 (rand-int 3)))
               :brightness 255
-              :theta (* (/ q/PI 8) (rand-int 8))})})
+              :theta (* (util/d2r 22.5) (rand-int 8))})})
 
 ;;----------------
 (defn update-shape
   [shape]
   (if (< (rand-int 30) 1)
     (-> shape
-      (update :theta #(+ % (/ q/PI 8)))
+      (update :theta #(+ % (util/d2r 22.5)))
       (update :hue #(mod (+ % 1) 256)))
     ;; else
     shape))
@@ -32,7 +32,6 @@
       (update :shapes #(map update-shape %))))
 
 ;;----------------
-
 (defn cross
   "Draw a cross centred at [x y] with side d and rotated by theta"
   [x y d theta]
