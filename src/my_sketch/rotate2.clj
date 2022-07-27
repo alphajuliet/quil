@@ -43,16 +43,15 @@
 
 (defn render-state
   [state]
-  (let [c (q/frame-count)]
-    (q/background 30)
-    (q/stroke-weight 8)
-    (q/with-translation [12 12]
-      (doseq [{:keys [x y hue brightness theta]} (:shapes state)]
-        (q/stroke hue 255 brightness)
-        (q/with-translation [x y]
-          (tile 0 0 48 theta)
-          (when (:render? state)
-            (q/save-frame "frames/f####.png")))))))
+  (q/background 30)
+  (q/stroke-weight 8)
+  (q/with-translation [12 12]
+    (doseq [{:keys [x y hue brightness theta]} (:shapes state)]
+      (q/stroke hue 255 brightness)
+      (q/with-translation [x y]
+        (tile 0 0 48 theta)
+        (when (:render? state)
+          (q/save-frame "frames/f####.png"))))))
 
 (defn snapshot
   [state _]
