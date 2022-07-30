@@ -1,6 +1,12 @@
 (ns my-sketch.util
   (:require [quil.core :as q]))
 
+(defn clamp
+  [x x-min x-max]
+  (-> x
+      (max x-min)
+      (min x-max)))
+
 (defn rand-int-range
   "Integer range"
   [a b]
