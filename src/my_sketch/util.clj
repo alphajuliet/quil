@@ -27,6 +27,22 @@
   [[x y] [u v] [a b]]
   [(mod (+ x u) a) (mod (+ y v) b)])
 
+(defn v2scale
+  "Scale [x y] by k"
+  [k [x y]]
+  [(* k x) (* k y)])
+
+(defmacro rotate-around
+  "Rotate the body by theta around a given 2D vertex.
+  e.g. (rotate-around [(* 2 q/PI) [50 75]] (q/triangle 10 10 10))"
+  [[theta vertex] & body]
+  `(let [th# ~theta
+         v# ~vertex]
+     (q/with-translation v#
+      (q/with-rotation [th#]
+        (q/with-translation (util/v2scale -1 v#)
+          ~@body)))))
+
 (defn square
   "Draw a square centred at [x y] with side d and rotated by theta"
   [x y d theta]
