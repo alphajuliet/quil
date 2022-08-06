@@ -1,6 +1,9 @@
 (ns my-sketch.util
   (:require [quil.core :as q]))
 
+;; --------------------------------
+;; Numeric utilities
+
 (defn clamp
   [x x-min x-max]
   (-> x
@@ -17,9 +20,17 @@
   [a b]
   (+ a (rand (- b a))))
 
-(def mod256 #(mod % 256))
+;; --------------------------------
+;; Conversions
 
+(def mod256 #(mod % 256))
 (def mod2pi #(mod % (* 2 q/PI)))
+
+(def d2r #(* % (/ q/PI 180.)))
+(def r2d #(/ % (/ q/PI 180.)))
+
+;; --------------------------------
+;; 2D vector operations
 
 (defn v2+
   "Vector add"
@@ -44,8 +55,11 @@
          v# ~vertex]
      (q/with-translation v#
       (q/with-rotation [th#]
-        (q/with-translation (util/v2scale -1 v#)
+        (q/with-translation (v2scale -1 v#)
           ~@body)))))
+
+;; --------------------------------
+;; Additional shapes
 
 (defn square
   "Draw a square centred at [x y] with side d and rotated by theta"
@@ -60,13 +74,5 @@
       (q/line x2 y1 x2 y2)
       (q/line x2 y2 x1 y2)
       (q/line x1 y2 x1 y1))))
-
-(defn d2r
-  [r]
-  (* r (/ q/PI 180.)))
-
-(defn r2d
-  [d]
-  (/ d (/ q/PI 180.)))
 
 ;; The End
