@@ -17,6 +17,10 @@
   [a b]
   (+ a (rand (- b a))))
 
+(def mod256 #(mod % 256))
+
+(def mod2pi #(mod % (* 2 q/PI)))
+
 (defn v2+
   "Vector add"
   [[x y] [u v]]
