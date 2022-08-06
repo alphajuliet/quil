@@ -13,7 +13,7 @@
   (q/color-mode :hsb)
   (let [[w h] sketch-size]
     {:render? false
-    :theta 0
+    :rho 0
     :centre (util/v2scale 0.5 [w h])
     :shapes (for [i (range 0 w 50)
                   j (range 0 h 50)]
@@ -36,7 +36,7 @@
 (defn update-state
   [state]
   (-> state
-      (update :theta #(mod (+ 0.01 %) (* 2 q/PI)))
+      (update :rho #(mod (+ 0.01 %) (* 2 q/PI)))
       (update :shapes #(map update-shape %))))
 
 ;;----------------
@@ -50,17 +50,18 @@
 
 
 (defn render-state
-  [{:keys [theta centre] :as state}]
+  [{:keys [rho centre] :as state}]
   (q/background 30)
   (q/stroke-weight 8)
-  (util/rotate-around [theta centre]
-                      (q/with-translation [12 12]
-                        (doseq [{:keys [x y hue brightness theta]} (:shapes state)]
-                          (q/stroke hue 255 brightness)
-                          (q/with-translation [x y]
-                            (tile 0 0 48 theta)
-                            (when (:render? state)
-                              (q/save-frame "frames/f####.png")))))))
+  (util/rotate-around
+   [rho centre]
+   (q/with-translation [12 12]
+     (doseq [{:keys [x y hue brightness theta]} (:shapes state)]
+       (q/stroke hue 255 brightness)
+       (q/with-translation [x y]
+         (tile 0 0 48 theta)
+         (when (:render? state)
+           (q/save-frame "frames/f####.png")))))))
 
 (defn snapshot
   [state _]
