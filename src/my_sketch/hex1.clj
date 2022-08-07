@@ -10,10 +10,9 @@
 (def render? false)
 
 ;;----------------
-(defn setup
+(defn initial-state
+  "Define the initial state"
   []
-  (q/frame-rate 24) ;fps
-  (q/color-mode :hsb)
   (let [[w h] sketch-size
         d (/ grid-spacing 2)]
     {:rho 0 ; overall rotation
@@ -27,7 +26,6 @@
                   :brightness 255
                   :theta 0}))}))
 
-;;----------------
 (defn update-shape
   [shape]
   (if (< (rand-int 64) 1)
@@ -70,7 +68,8 @@
 (defn render-state
   [{:keys [rho centre] :as state}]
   (q/background 30)
-  (u/rotate-around [rho centre]
+  (u/rotate-around
+   [rho centre]
    (q/with-translation [25 25]
      (doseq [shape (:shapes state)]
        (render-shape shape)))))
@@ -79,6 +78,13 @@
   [state _]
   (q/save-frame "image/snapshot.png")
   state)
+
+;;----------------
+(defn setup
+  []
+  (q/frame-rate 24) ;fps
+  (q/color-mode :hsb)
+  (initial-state))
 
 ;;----------------
 (q/defsketch hex1
