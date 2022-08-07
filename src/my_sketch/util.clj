@@ -59,6 +59,20 @@
           ~@body)))))
 
 ;; --------------------------------
+;; Time-based waveforms
+
+(defn sin-wave
+  "Return a sine wave with amplitude and period in seconds"
+  [ampl period]
+  (* ampl (q/sin (/ (q/frame-count) (* period (q/current-frame-rate))))))
+
+(defn saw-wave
+  "An up-ramp wave with amplitude and period"
+  [ampl period]
+  (let [d (* period (q/current-frame-rate))]
+    (* ampl (/ (mod (q/frame-count) d) d))))
+
+;; --------------------------------
 ;; Additional shapes
 
 (defn square

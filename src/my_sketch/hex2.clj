@@ -15,23 +15,25 @@
   []
   (let [[w h] sketch-size
         d (/ grid-spacing (q/sqrt 3))]
-    {:rho 0 ; overall rotation
+    {:rho (/ q/PI 3) ; overall rotation
      :centre (u/v2scale 0.5 [w h]) ; overall centre
      :shapes (for [q (range (- (quot w d)) (quot w d))
                    r (range (- (quot h d)) (quot h d))]
                (let [[x y] (hex/hex->coord [q r])]
                  {:x (* x d)
                   :y (* y d)
-                  :hue (-> 3 rand-int (* 85) (+ 25))
+                  :hue (-> 2 rand-int (* 127) (+ 25))
                   :brightness 255
                   :sat 0
-                  :theta 0}))}))
+                  :theta 0
+                  :r 0.75}))}))
 
 (defn update-shape
   [shape]
   (if (< (rand-int 200) 1)
     (-> shape
         (update :hue #(u/mod256 (inc %)))
+        (update :r identity)
         (update :theta #(u/mod2pi (+ % (/ q/PI 3)))))
     ;; else
     shape))
@@ -39,17 +41,16 @@
 (defn update-state
   [state]
   (-> state
-      ;; (update :rho #(+ % 0.005))
+      (update :rho #(+ % 0.005))
       (update :shapes #(map update-shape %))))
 
 ;;----------------
 (defn tile
-  "Draw a hex tile centred at [x y] with side d and rotated by theta"
-  [x y d theta]
+  "Draw a hex tile centred at [x y] with side d, rotated by theta, and a factor r."
+  [x y d theta r]
   (let [d' (quot d 2)
         dx (* d' (q/cos (/ q/PI 3)))
-        dy (* d' (q/sin (/ q/PI 3)))
-        r 0.6]
+        dy (* d' (q/sin (/ q/PI 3)))]
     (q/stroke-weight 2)
     (q/with-translation [x y]
       (q/with-rotation [theta]
@@ -66,10 +67,10 @@
         ))))
 
 (defn render-shape
-  [{:keys [x y theta hue brightness sat]}]
-  (q/stroke hue 64 brightness)
+  [{:keys [x y theta hue brightness sat r]}]
+  (q/stroke hue (+ 127 (u/sin-wave 127 10)) brightness)
   (q/with-translation [x y]
-    (tile 0 0 (- grid-spacing 0) theta)))
+    (tile 0 0 (- grid-spacing 0) theta r)))
 
 (defn render-state
   [{:keys [rho centre] :as state}]
