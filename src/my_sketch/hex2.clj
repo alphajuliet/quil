@@ -26,22 +26,25 @@
                   :brightness 255
                   :sat 0
                   :theta 0
+                  :theta-target 0
                   :r 0.75}))}))
 
 (defn update-shape
-  [shape]
-  (if (< (rand-int 200) 1)
+  [{:keys [theta-target] :as shape}]
+  (if (< (rand-int 250) 1)
     (-> shape
-        (update :hue #(u/mod256 (inc %)))
+        (update :hue #(u/mod256 (+ 2 %)))
         (update :r identity)
-        (update :theta #(u/mod2pi (+ % (/ q/PI 3)))))
+        (update :theta-target (partial + (/ q/PI 3))))
     ;; else
-    shape))
+    (-> shape
+        (update :theta #(if (< % theta-target) (+ % 0.05) %)))))
 
 (defn update-state
   [state]
   (-> state
       (update :rho #(+ % 0.005))
+      ;; (update :rho #(u/sin-wave q/PI 60))
       (update :shapes #(map update-shape %))))
 
 ;;----------------
@@ -67,7 +70,8 @@
         ))))
 
 (defn render-shape
-  [{:keys [x y theta hue brightness sat r]}]
+  [{:keys [x y theta hue brightness r]}]
+  ;; Slowly cycle the saturation of the tiles
   (q/stroke hue (+ 127 (u/sin-wave 127 10)) brightness)
   (q/with-translation [x y]
     (tile 0 0 (- grid-spacing 0) theta r)))
@@ -89,7 +93,7 @@
 ;;----------------
 (defn setup
   []
-  (q/frame-rate 24) ;fps
+  (q/frame-rate 30) ;fps
   (q/color-mode :hsb)
   (initial-state))
 
