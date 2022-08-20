@@ -1,7 +1,7 @@
 (ns my-sketch.array2d
   (:require [quil.core :as q]
             [quil.middleware :as m]
-            [my-sketch.util :as util]))
+            [my-sketch.util :as u]))
 
 ;;----------------
 (defn setup
@@ -22,13 +22,9 @@
 ;;----------------
 (defn update-state
   [{:keys [delta centre-x centre-y width height] :as state}]
-  (let []
+  (let [w (/ width 2)]
     (-> state
-        (update :centre-x #(util/clamp (+ % delta) 0 width))
-        (update :delta #(if (or (< centre-x delta)
-                                (> centre-x (- width delta)))
-                          (- %)
-                          %))
+        (assoc :centre-x (+ w (u/sin-wave w 5)))
         (assoc :maxDistance (q/dist centre-x centre-y width height)))))
 
 ;;----------------
