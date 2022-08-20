@@ -23,12 +23,13 @@
   (let [start-pos [0 (/ (q/height) 4)]]
     {:background 0
      :xy start-pos
+     :dxdy [4 2]
      :circles (list (new-circle start-pos))}))
 
 ;;----------------
 (defn update-circle
   [circle]
-  (let [decay 0.80]
+  (let [decay 0.85]
     (-> circle
         (update :age #(int (* % decay))))))
 
@@ -36,13 +37,21 @@
   [c]
   (<= (:age c) 1))
 
+(defn bounce
+  "Update dxdy based on the bounding rectangle"
+  [[x y] [dx dy]]
+  (let [dx' (if (< 0 x (q/width)) dx (- dx))
+        dy' (if (< 0 y (q/height)) dy (- dy))]
+    [dx' dy']))
+
 (defn update-state
-  [{:keys [xy] :as state}]
+  [{:keys [xy dxdy] :as state}]
   (let [fw (/ (q/width) 2)
         fh (/ (q/height) 2)
-        new-pos (util/v2mod+ xy [5 2] [fw fh])]
+        new-pos (util/v2mod+ xy dxdy [fw fh])]
     (-> state
         (assoc :xy new-pos)
+        (assoc :dxdy (bounce new-pos dxdy))
         (update :circles #(conj % (new-circle new-pos)))
         (update :circles #(map update-circle %))
         (update :circles #(remove dead? %)))))
