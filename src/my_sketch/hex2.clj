@@ -7,7 +7,6 @@
 ;; Overall dimensions
 (def sketch-size [500 500])
 (def grid-spacing 50)
-(def render? false)
 
 ;;----------------
 (defn initial-state
