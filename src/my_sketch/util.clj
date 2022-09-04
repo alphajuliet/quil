@@ -20,12 +20,14 @@
   [a b]
   (+ a (rand (- b a))))
 
+(defn one-on [x] (/ 1. x))
+(defn pi-on [x] (/ q/PI x))
+
 ;; --------------------------------
 ;; Conversions
 
 (def mod256 #(mod % 256))
 (def mod2pi #(mod % (* 2 q/PI)))
-(defn pi-on [x] (/ q/PI x))
 
 (def d2r #(* % (/ q/PI 180.)))
 (def r2d #(/ % (/ q/PI 180.)))
