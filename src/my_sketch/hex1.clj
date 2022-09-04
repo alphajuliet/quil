@@ -24,21 +24,23 @@
                   :y (* y d)
                   :hue (-> 3 rand-int (* 85) (+ 25))
                   :brightness 255
-                  :theta 0}))}))
+                  :theta 0
+                  :theta-target 0}))}))
 
 (defn update-shape
-  [shape]
-  (if (< (rand-int 64) 1)
+  [{:keys [theta-target] :as shape}]
+  (if (< (rand-int 250) 1)
     (-> shape
         (update :hue #(u/mod256 (inc %)))
-        (update :theta #(u/mod2pi (+ % (/ q/PI 3)))))
+        (update :theta-target #(u/mod2pi (+ % (u/pi-on 3)))))
     ;; else
-    shape))
+    (-> shape
+        (update :theta #(if (< % theta-target) (+ % (u/pi-on 48)) %)))))
 
 (defn update-state
   [state]
   (-> state
-      (update :rho #(+ % 0.01))
+      (update :rho #(+ % (u/pi-on 480)))
       (update :shapes #(map update-shape %))))
 
 ;;----------------
@@ -46,8 +48,8 @@
   "Draw a hex tile centred at [x y] with side d and rotated by theta"
   [x y d theta]
   (let [d' (quot d 2)
-        dx (* d' (q/cos (/ q/PI 3)))
-        dy (* d' (q/sin (/ q/PI 3)))]
+        dx (* d' (q/cos (u/pi-on 3)))
+        dy (* d' (q/sin (u/pi-on 3)))]
     (q/stroke-weight 4)
     (q/with-rotation [theta]
       (q/line (- x d') y (+ x d') y)
