@@ -7,7 +7,7 @@
 ;; Overall dimensions
 (def sketch-size [500 500])
 (def grid-spacing 50)
-(def frame-rate 30)
+(def frame-rate 24)
 
 ;;----------------
 (defn initial-state
@@ -23,7 +23,7 @@
                (let [[x y] (hex/hex->coord [q r])]
                  {:x (* x d)
                   :y (* y d)
-                  :type (rand-int 2)
+                  :type (rand-int 3)
                   :hue (-> 2 rand-int (* 127) (+ offset))
                   :brightness 255
                   :sat 0
@@ -59,16 +59,20 @@
     (q/no-fill)
     (q/with-translation [x y]
       (q/with-rotation [theta]
-        (if (zero? type)
-          (do
-            (q/line (- dx) (- dy) dx dy)
-            (q/bezier d' 0 0 0 0 0 dx (- dy))
-            (q/bezier (- d') 0 0 0 0 0 (- dx) (+ dy)))
+        (case type
+          0 (do
+              (q/bezier d' 0 0 0 0 0 dx dy)
+              (q/bezier (- dx) dy 0 0 0 0 (- d') 0)
+              (q/bezier (- dx) (- dy) 0 0 0 0 dx (- dy)))
+          1 (do
+              (q/line (- dx) (- dy) dx dy)
+              (q/bezier d' 0 0 0 0 0 dx (- dy))
+              (q/bezier (- d') 0 0 0 0 0 (- dx) (+ dy)))
           ;; else type 1
-          (do
-            (q/line (- dx) (- dy) dx dy)
-            (q/bezier d' 0 0 0 0 0 (- dx) dy)
-            (q/bezier (- d') 0 0 0 0 0 (+ dx) (- dy))))))))
+          2 (do
+              (q/line (- dx) (- dy) dx dy)
+              (q/bezier d' 0 0 0 0 0 (- dx) dy)
+              (q/bezier (- d') 0 0 0 0 0 (+ dx) (- dy))))))))
 
 (defn render-shape
         [{:keys [x y theta hue brightness r type]}]
