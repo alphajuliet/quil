@@ -65,9 +65,11 @@
 ;; Time-based waveforms
 
 (defn sin-wave
-  "Return a sine wave with amplitude around zero and period in seconds"
-  [ampl period]
-  (* ampl (q/sin (/ (q/frame-count) (* period (q/current-frame-rate))))))
+  "Return a sine wave with amplitude around zero, or min to max, and period in seconds"
+  ([ampl period]
+   (sin-wave 0 ampl period))
+  ([min max period]
+   (+ min (* (- max min) (q/sin (/ (q/frame-count) (* period (q/current-frame-rate))))))))
 
 (defn saw-wave
   "An up-ramp wave from zero to amplitude and period, or from min to max."

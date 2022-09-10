@@ -6,7 +6,7 @@
 
 ;; Overall dimensions
 (def sketch-size [500 500])
-(def grid-spacing 50)
+(def grid-spacing 60)
 (def frame-rate 24)
 
 ;;----------------
@@ -15,7 +15,7 @@
   []
   (let [[w h] sketch-size
         d (/ grid-spacing (q/sqrt 3))
-        offset (rand-int 128)]
+        offset (rand-int 85)]
     {:rho (/ q/PI 3) ; overall rotation
      :centre (u/v2scale 0.5 [w h]) ; overall centre
      :shapes (for [q (range (- (quot w d)) (quot w d))
@@ -23,8 +23,8 @@
                (let [[x y] (hex/hex->coord [q r])]
                  {:x (* x d)
                   :y (* y d)
-                  :type (rand-int 3)
-                  :hue (-> 2 rand-int (* 127) (+ offset))
+                  :type (rand-int 4)
+                  :hue (-> 3 rand-int (* 85) (+ offset))
                   :brightness 255
                   :sat 0
                   :theta 0
@@ -55,7 +55,7 @@
   (let [d' (quot d 2)
         dx (* d' (q/cos (u/pi-on 3)))
         dy (* d' (q/sin (u/pi-on 3)))]
-    (q/stroke-weight 3)
+    (q/stroke-weight 4)
     (q/no-fill)
     (q/with-translation [x y]
       (q/with-rotation [theta]
@@ -72,14 +72,18 @@
           2 (do
               (q/line (- dx) (- dy) dx dy)
               (q/bezier d' 0 0 0 0 0 (- dx) dy)
-              (q/bezier (- d') 0 0 0 0 0 (+ dx) (- dy))))))))
+              (q/bezier (- d') 0 0 0 0 0 (+ dx) (- dy)))
+          3 (do
+              (q/bezier d' 0 0 0 0 0 dx dy)
+              (q/bezier (- dx) dy 0 0 0 0 (- dx) (- dy))
+              (q/bezier (- d') 0 0 0 0 0 dx (- dy))))))))
 
 (defn render-shape
-        [{:keys [x y theta hue brightness r type]}]
-        ;; Slowly cycle the saturation of the tiles
-        (q/stroke hue (+ 127 (u/sin-wave 127 10)) brightness)
-        (q/with-translation [x y]
-          (tile 0 0 (- grid-spacing 0) theta r type)))
+  [{:keys [x y theta hue brightness r type]}]
+  ;; Slowly cycle the saturation of the tiles
+  (q/stroke hue (u/sin-wave 127 127 10) brightness)
+  (q/with-translation [x y]
+    (tile 0 0 (- grid-spacing 0) theta r type)))
 
 (defn render-state
   [{:keys [rho centre] :as state}]
