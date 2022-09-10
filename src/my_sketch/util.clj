@@ -18,7 +18,7 @@
 (defn rand-range
   "Floating point range"
   [a b]
-  (+ a (rand (- b a))))
+  (q/random a b))
 
 (defn one-on [x] (/ 1. x))
 (defn pi-on [x] (/ q/PI x))

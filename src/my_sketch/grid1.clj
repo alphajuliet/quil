@@ -1,6 +1,7 @@
 (ns my-sketch.grid1
   (:require [quil.core :as q]
             [quil.middleware :as m]
+            [clojure.spec.alpha :as s]
             [my-sketch.util :as u]))
 
 ;;----------------
@@ -55,7 +56,7 @@
 (defn update-node
   ;; update-node :: Vec2 -> Vec2
   [[x y]]
-  [(+ x (u/rand-range -0.5 0.5)) (+ y (u/rand-range -0.5 0.5))])
+  [(+ x (q/random -0.5 0.5)) (+ y (q/random -0.5 0.5))])
 
 (defn update-state
   ;; update-state :: State -> State
