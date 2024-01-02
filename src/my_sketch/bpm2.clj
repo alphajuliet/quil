@@ -1,4 +1,4 @@
-(ns my-sketch.bpm
+(ns my-sketch.bpm2
   (:require [quil.core :as q]
             [quil.middleware :as m]
             [my-sketch.util :as u]))
@@ -6,8 +6,8 @@
 ;; Overall dimensions
 (def sketch-size [500 500])
 
-(def frame-rate 24)
-(def bpm 126)
+(def frame-rate 12)
+(def bpm 90)
 (def sec-per-beat (/ 60. bpm))
 
 ;;----------------
@@ -15,24 +15,29 @@
   "Define the initial state"
   ;; initial-state :: State
   []
-  {:size 250 :hue 64})
+  {:r 100})
 
 (defn update-state
   [state]
   (-> state
-      (assoc :size (u/saw-wave 125 250 sec-per-beat))
-      (update :hue (comp u/mod256 #(+ % 0.5)))))
+      (assoc :r (u/sin-wave 0 100 sec-per-beat))))
 
 ;;----------------
 (defn render-shape
-  [{:keys [size hue]}]
-  (q/fill hue 127 255)
-  (q/ellipse 250 250 size size))
+  ;; render-shape :: Float -> IO
+  [r]
+  (q/with-translation [250 250]
+    (q/line r 0 (- r) 0)
+    (u/line (u/rθ->xy [r (u/pi-on 1.5)]) (u/rθ->xy [r (u/pi-on 0.6)]))
+    (u/line (u/rθ->xy [r (u/pi-on 3)]) (u/rθ->xy [r (u/pi-on 0.75)]))))
 
 (defn render-state
-  [{:keys [] :as state}]
+  ;; render-state :: State -> IO
+  [{:keys [r] :as state}]
   (q/background 30)
-  (render-shape state))
+  (q/stroke 127 127 255)
+  (q/stroke-weight 2)
+  (render-shape r))
 
 ;;----------------
 (defn setup
@@ -42,7 +47,7 @@
   (initial-state))
 
 ;;----------------
-(q/defsketch bpm
+(q/defsketch bpm2
   :title ""
   :size sketch-size
   :setup setup

@@ -107,7 +107,7 @@
   (initial-state))
 
 ;;----------------
-(q/defsketch hex2
+(q/defsketch hex4
   :title ""
   :size sketch-size
   :setup setup

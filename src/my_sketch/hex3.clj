@@ -58,8 +58,7 @@
       (q/with-rotation [theta]
         (q/line dx dy (- dx) dy)
         (q/line d' 0 (- d') 0)
-        (q/line (- dx) (- dy) dx (- dy))
-        ))))
+        (q/line (- dx) (- dy) dx (- dy))))))
 
 (defn render-shape
   [{:keys [x y theta hue brightness r]}]
@@ -90,7 +89,7 @@
   (initial-state))
 
 ;;----------------
-(q/defsketch hex2
+(q/defsketch hex3
   :title ""
   :size sketch-size
   :setup setup

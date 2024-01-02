@@ -32,6 +32,14 @@
 (def d2r #(* % (/ q/PI 180.)))
 (def r2d #(/ % (/ q/PI 180.)))
 
+(defn xy->rθ
+  [[x y]]
+  [(q/sqrt (+ (* x x) (* y y))) (q/atan2 y x)])
+
+(defn rθ->xy
+  [[r θ]]
+  [(* r (q/cos θ)) (* r (q/sin θ))])
+
 ;; --------------------------------
 ;; 2D vector operations
 
@@ -81,6 +89,10 @@
 
 ;; --------------------------------
 ;; Additional shapes
+
+(defn line
+  [[x1 y1] [x2 y2]]
+  (q/line x1 y1 x2 y2))
 
 (defn square
   "Draw a square centred at [x y] with side d and rotated by theta"
