@@ -32,9 +32,7 @@
 (def d2r #(* % (/ q/PI 180.)))
 (def r2d #(/ % (/ q/PI 180.)))
 
-(defn xy->rθ
-  [[x y]]
-  [(q/sqrt (+ (* x x) (* y y))) (q/atan2 y x)])
+
 
 (defn rθ->xy
   [[r θ]]
@@ -45,8 +43,8 @@
 
 (defn v2+
   "Vector add"
-  [[x y] [u v]]
-  [(+ x u) (+ y v)])
+  [u v]
+  (mapv + u v))
 
 (defn v2mod+
   "Vector add with modulo"
