@@ -1,0 +1,7 @@
+{:paths ["src"]
+ :deps {org.clojure/clojure {:mvn/version "1.12.1"}
+        spec-dict/spec-dict {:mvn/version "0.2.1"}
+        quil/quil {:mvn/version "4.3.1563"}
+        org.clojure/algo.monads {:mvn/version "0.1.6"}}
+ :aliases {:dev {:extra-deps {org.clojure/test.check {:mvn/version "0.9.0"}}}}}
+
