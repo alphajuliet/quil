@@ -1,3 +1,4 @@
+# Compilation artifacts
 /target
 /classes
 /checkouts
@@ -5,10 +6,23 @@ pom.xml
 pom.xml.asc
 *.jar
 *.class
+
+# Leiningen
 /.lein-*
+
+# REPL
 /.nrepl-port
+.nrepl-history
+
+# deps.edn
+/.cpcache
+
+# Development tools
 /.clj-kondo
 /.lsp
+/.calva
+
+# Project specific
 /frames
 /image
-/.calva
+

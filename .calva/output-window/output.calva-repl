@@ -85,3 +85,15 @@ clj꞉user꞉> 
 ; Evaluating file: hex4.clj
 #'my-sketch.hex4/hex4
 clj꞉my-sketch.hex4꞉> 
+#'my-sketch.util/v2+
+clj꞉my-sketch.util꞉> 
+; Evaluating file: hex4.clj
+#'my-sketch.hex4/hex4
+clj꞉my-sketch.hex4꞉> 
+; Evaluating file: hincat.clj
+#'my-sketch.hincat/hincat
+clj꞉my-sketch.hincat꞉> 
+; Evaluating file: hex4.clj
+#'my-sketch.hex4/hex4
+clj꞉my-sketch.hex4꞉> 
+; nREPL Connection was closed
