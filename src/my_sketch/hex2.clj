@@ -65,8 +65,8 @@
 
         (q/line (- d') 0 (- (* r d')) 0)
         (q/line dx dy (* r dx) (* r dy))
-        (q/line dx (- dy) (* r dx) (- (* r dy)))
-        ))))
+        (q/line dx (- dy) (* r dx) (- (* r dy)))))))
+        
 
 (defn render-shape
   [{:keys [x y theta hue brightness r]}]

@@ -14,8 +14,8 @@
 
 (defn update-state
   [state]
-  (-> state
-      ))
+  (-> state))
+      
 
 ;;----------------
 (defn render-state
@@ -42,16 +42,16 @@
   (q/line 0 0 0 0 0 100)
 
   #_(q/with-translation [250 250 0]
-    (q/box 100)
+     (q/box 100)
     ;; draw red X axis
-    (q/stroke 255 0 0)
-    (q/line 0 0 0 100 0 0)
+     (q/stroke 255 0 0)
+     (q/line 0 0 0 100 0 0)
     ;; draw green Y axis
-    (q/stroke 0 255 0)
-    (q/line 0 0 0 0 100 0)
+     (q/stroke 0 255 0)
+     (q/line 0 0 0 0 100 0)
     ;; draw blue Z axis
-    (q/stroke 0 0 255)
-    (q/line 0 0 0 0 0 100)))
+     (q/stroke 0 0 255)
+     (q/line 0 0 0 0 0 100)))
 
 ;;----------------
 (defn setup

@@ -108,7 +108,7 @@
 
 ;;----------------
 (q/defsketch hex4
-  :title ""
+  :title "hex4"
   :size sketch-size
   :setup setup
   :update update-state

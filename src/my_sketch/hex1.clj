@@ -56,8 +56,8 @@
       ;; (q/line (- x dx) (+ y dy) (+ x dx) (- y dy))
       (q/line x y (+ x dx) (- y dy))
       ;; (q/line (- x dx) (- y dy) (+ x dx) (+ y dy))
-      (q/line x y (+ x dx) (+ y dy))
-      )))
+      (q/line x y (+ x dx) (+ y dy)))))
+      
 
 (defn render-shape
   [{:keys [x y theta hue brightness]}]
